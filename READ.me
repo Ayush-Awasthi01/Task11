@@ -1,0 +1,50 @@
+# Personalised Mentor Recommendation System
+
+## Summary of Approach
+
+This project implements a personalized mentor recommendation system using a Flask web application. Here's how it works:
+
+1.  **Data Storage:** Mentor details (name, subjects, rating, preparation level, learning style, target colleges) are stored in a CSV file (`mentors.csv`).
+2.  **Backend (Flask):**
+    * The `app.py` script uses the Flask framework to create a web server.
+    * It defines a route (`/`) to serve the main HTML page (`templates/index.html`).
+    * It loads mentor data from `mentors.csv` upon request.
+    * An API endpoint (`/get_recommendations`) receives user preferences (preferred subject, target college, preparation level, learning style) as JSON data via a POST request.
+    * It calculates a `match_score` for each mentor by comparing the mentor's attributes with the user's preferences. Points are awarded for matches in subject, learning style, preparation level, and target college.
+    * The mentor's existing rating provides a small boost to the `match_score` (`final_score = match_score + (mentor['rating'] / 5)`).
+    * The system sorts mentors by their final score in descending order and returns the top 3 matches as JSON.
+    * Another API endpoint (`/rate_mentor`) allows users to submit a rating for a mentor. This updates the mentor's average rating in the `mentors.csv` file (currently by simple averaging).
+3.  **Frontend (HTML, CSS, JavaScript):**
+    * The `index.html` file provides the user interface with a form to input preferences.
+    * `style.css` provides basic styling for the page[cite: 1].
+    * `script.js` handles the frontend logic:
+        * It captures the form submission event.
+        * It prevents the default form submission and sends the user's preferences to the `/get_recommendations` backend endpoint using `Workspace` (asynchronously).
+        * It receives the JSON response containing the recommended mentors and dynamically updates the HTML to display the results.
+        * It handles the submission of mentor ratings by sending data to the `/rate_mentor` endpoint.
+
+## Setup Instructions
+
+1.  **Prerequisites:**
+    * Python 3 installed on your system.
+    * `pip` (Python package installer).
+
+2.  **Download or Clone Files:** Ensure you have all the project files (`app.py`, `mentors.csv`, `templates/index.html`, `static/style.css`, `static/script.js`) in the correct directory structure as shown below.
+
+3.  **Install Dependencies:** Open your terminal or command prompt, navigate to the project's root directory (the one containing `app.py`), and install the required Flask library:
+    ```bash
+    pip install Flask
+    ```
+
+4.  **Run the Application:** While still in the project's root directory, run the Flask application:
+    ```bash
+    python app.py
+    ```
+
+5.  **Access the Application:** Open your web browser and go to the following address:
+    ```
+    [http://127.0.0.1:5000](http://127.0.0.1:5000)
+    ```
+    (Flask will usually indicate the running address in the terminal). You should now see the Mentor Recommendation System interface.
+
+## File Structure
